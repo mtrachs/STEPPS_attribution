@@ -18,7 +18,7 @@ vector[S] coord_y;
 
 transformed data {
   
-  vector[S] zeros;
+  //vector[S] zeros;
   vector[K] zeros_k;
   vector[K] var_k;
   //vector[time_slice] T_sq; 
@@ -26,7 +26,7 @@ transformed data {
   
   
   
-  for(i in 1:S) zeros[i] = 0;
+ // for(i in 1:S) zeros[i] = 0;
   for(k in 1:K) zeros_k[k] = 0;
   for(k in 1:K) var_k[k] = 10;
   //for(t in 1:time_slice) T_sq[t] = T[t]*T[t];
@@ -50,9 +50,9 @@ parameters{
     vector<lower=-10,upper=10>[K] alpha_one;
     vector<lower=-10,upper=10>[K] alpha_two;
     vector<lower=-10,upper=10>[K] alpha_three;
-    vector<lower=-10,upper=10>[K] alpha_four;
-    //vector<lower=-10,upper=10>[K] alpha_five;
-    //vector<lower=-10,upper=10>[K] alpha_six;
+  //  vector<lower=-10,upper=10>[K] alpha_four;
+  //  vector<lower=-10,upper=10>[K] alpha_five;
+  //  vector<lower=-10,upper=10>[K] alpha_six;
 
   /*vector[K] alpha_zero_k;
   matrix[time_slice,K] alpha_M_t;
@@ -63,7 +63,7 @@ parameters{
 */  //vector alpha_three[K];
   
   //matrix<lower=-10,upper=10>[time_slice,K] eps_t_k;
-  matrix<lower=-10,upper=10>[time_slice,K] eps_s_t_k[S];
+  //matrix<lower=-10,upper=10>[time_slice,K] eps_s_t_k[S];
   //cov_matrix[S] eps_s_k[K];// should Stan estimate this or do we define it?
  // vector<lower=-10,upper=10>[S] mu_s_k[K];
   //vector<lower=1e-4,upper=10>[K] eta;
@@ -89,7 +89,7 @@ model {
   alpha_one ~ multi_normal(zeros_k,diag_matrix(var_k));
   alpha_two ~ multi_normal(zeros_k,diag_matrix(var_k));
   alpha_three ~ multi_normal(zeros_k,diag_matrix(var_k));
-  alpha_four ~ multi_normal(zeros_k,diag_matrix(var_k));
+  //alpha_four ~ multi_normal(zeros_k,diag_matrix(var_k));
   //alpha_five ~ multi_normal(zeros_k,diag_matrix(var_k));
   //alpha_six ~ multi_normal(zeros_k,diag_matrix(var_k));
   
@@ -114,7 +114,7 @@ model {
   // perhaps omit eps_t_k[t,k] in a first pass
           
          // clim_rel[t,k] = alpha_zero_k[k] + alpha_one[t,k]*T[t] +  alpha_two[t,k]*M[t] + alpha_three[t,k]*T2[t] +  alpha_four[t,k]*M2[t];
-          clim_rel[t,k] = alpha_zero_k[k] + alpha_one[k]*coord_x[s] +  alpha_two[k]*coord_y[s] + alpha_three[k]*T[t] +  alpha_four[k]*M[t]+  alpha_two[k]*coord_y[s];// + alpha_five[k]*T2[t] +  alpha_six[k]*M2[t];
+          clim_rel[t,k] = alpha_zero_k[k] + alpha_one[k]*coord_x[s] +  alpha_two[k]*coord_y[s] + alpha_three[k]*M[t];// +  alpha_four[k]*M[t]+  alpha_two[k]*coord_y[s] + alpha_five[k]*T2[t] +  alpha_six[k]*M2[t];
           //no interaction to begin with, could also make alpha autoregressive
        // some covariance matrix 
           y_comp[k] = y[s,k,t];

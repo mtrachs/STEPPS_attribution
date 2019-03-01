@@ -51,8 +51,8 @@ parameters{
     vector<lower=-10,upper=10>[K] alpha_two;
     vector<lower=-10,upper=10>[K] alpha_three;
     vector<lower=-10,upper=10>[K] alpha_four;
-    //vector<lower=-10,upper=10>[K] alpha_five;
-    //vector<lower=-10,upper=10>[K] alpha_six;
+    vector<lower=-10,upper=10>[K] alpha_five;
+    vector<lower=-10,upper=10>[K] alpha_six;
 
   /*vector[K] alpha_zero_k;
   matrix[time_slice,K] alpha_M_t;
@@ -90,8 +90,8 @@ model {
   alpha_two ~ multi_normal(zeros_k,diag_matrix(var_k));
   alpha_three ~ multi_normal(zeros_k,diag_matrix(var_k));
   alpha_four ~ multi_normal(zeros_k,diag_matrix(var_k));
-  //alpha_five ~ multi_normal(zeros_k,diag_matrix(var_k));
-  //alpha_six ~ multi_normal(zeros_k,diag_matrix(var_k));
+  alpha_five ~ multi_normal(zeros_k,diag_matrix(var_k));
+  alpha_six ~ multi_normal(zeros_k,diag_matrix(var_k));
   
   
     
@@ -114,7 +114,7 @@ model {
   // perhaps omit eps_t_k[t,k] in a first pass
           
          // clim_rel[t,k] = alpha_zero_k[k] + alpha_one[t,k]*T[t] +  alpha_two[t,k]*M[t] + alpha_three[t,k]*T2[t] +  alpha_four[t,k]*M2[t];
-          clim_rel[t,k] = alpha_zero_k[k] + alpha_one[k]*coord_x[s] +  alpha_two[k]*coord_y[s] + alpha_three[k]*T[t] +  alpha_four[k]*M[t]+  alpha_two[k]*coord_y[s];// + alpha_five[k]*T2[t] +  alpha_six[k]*M2[t];
+          clim_rel[t,k] = alpha_zero_k[k] + alpha_one[k]*coord_x[s] +  alpha_two[k]*coord_y[s] + alpha_three[k]*T[t] +  alpha_four[k]*M[t]+  alpha_two[k]*coord_y[s] + alpha_five[k]*T2[t] +  alpha_six[k]*M2[t];
           //no interaction to begin with, could also make alpha autoregressive
        // some covariance matrix 
           y_comp[k] = y[s,k,t];
