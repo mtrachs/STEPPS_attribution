@@ -40,7 +40,7 @@ transformed data {
 parameters{
   
   //parameters of dirichlet distribution and its components
-   // vector<lower=-10,upper=10>[K] alpha_zero_k;
+   vector<lower=-10,upper=10>[K] alpha_zero_k;
 //alpha_T_K_t; // interaction term 
    /* matrix<lower=-10,upper=10>[time_slice,K] alpha_one;
     matrix<lower=-10,upper=10>[time_slice,K] alpha_two;
@@ -79,13 +79,13 @@ as log to ensure alpha is positive
 
 model {
   vector[K] y_comp;//matrix[S,time_slice] alpha_s_t_k[K];
-  //matrix[time_slice,K] clim_rel;
+  matrix[time_slice,K] clim_rel;
   vector[K] alpha_s_t_k;
   matrix[S,S] C_s[K];
   matrix[S,S] C_s_L[K];
   
   
-  //alpha_zero_k ~ normal(0,10);
+  alpha_zero_k ~ normal(0,10);
   //alpha_one ~ multi_normal(zeros_k,diag_matrix(var_k));
   //alpha_two ~ multi_normal(zeros_k,diag_matrix(var_k));
   //alpha_three ~ multi_normal(zeros_k,diag_matrix(var_k));
@@ -109,13 +109,13 @@ model {
         for(k in 1:K){
   // perhaps omit eps_t_k[t,k] in a first pass
           
-         // clim_rel[t,k] = alpha_zero_k[k] + alpha_one[t,k]*T[t] +  alpha_two[t,k]*M[t] + alpha_three[t,k]*T2[t] +  alpha_four[t,k]*M2[t];
+         clim_rel[t,k] = alpha_zero_k[k];// + alpha_one[t,k]*T[t] +  alpha_two[t,k]*M[t] + alpha_three[t,k]*T2[t] +  alpha_four[t,k]*M2[t];
           //clim_rel[t,k] = alpha_zero_k[k]  + alpha_three[k]*T[t] +  alpha_four[k]*M[t];// + alpha_five[k]*T2[t] +  alpha_six[k]*M2[t]; + alpha_one[k]*coord_x[s] +  alpha_two[k]*coord_y[s]
           //no interaction to begin with, could also make alpha autoregressive
        // some covariance matrix 
           y_comp[k] = y[s,k,t];
           //alpha_s_t_k[k] = clim_rel[t,k]  + mu_s_k[k,s] + eps_t_k[t,k];// careful with subscripts!! perhaps have to model this + eps_t_k[s,k];// 
-          alpha_s_t_k[k] = mu_s_k[k,s];  // + eps_s_t_k[s,t,k];//
+          alpha_s_t_k[k] = clim_rel[t,k] + mu_s_k[k,s];  // + eps_s_t_k[s,t,k];//
         }
       // specifiy the likelihood
         //print(alpha_s_t_k);
