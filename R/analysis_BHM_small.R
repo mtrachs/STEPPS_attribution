@@ -529,11 +529,11 @@ for(zz in 1:length(residual_pred)){
   breaklabels = apply(cbind(breaks[1:(length(breaks)-1)], breaks[2:length(breaks)]), 1, 
                     function(r) { sprintf("%0.2f - %0.2f", r[1], r[2]) })
   
-  weird <- cut(residual_pred1,breaks,include.lowest=TRUE)
-  wt <- table(weird)
-  #breaks <- breaks[-c(which(wt==0))]
-  breaklabels = apply(cbind(breaks[1:(length(breaks)-1)], breaks[2:length(breaks)]), 1, 
-                      function(r) { sprintf("%0.2f - %0.2f", r[1], r[2]) })
+  # weird <- cut(residual_pred1,breaks,include.lowest=TRUE)
+  # wt <- table(weird)
+  # #breaks <- breaks[-c(which(wt==0))]
+  # breaklabels = apply(cbind(breaks[1:(length(breaks)-1)], breaks[2:length(breaks)]), 1, 
+  #                     function(r) { sprintf("%0.2f - %0.2f", r[1], r[2]) })
   # 
   taxa =c('Ash','Beech','Birch','Chestnut','Hemlock','Hickory','Maple','Oak','Conifer','Hardwood','Pine','Spruce','Tamarack')
 
